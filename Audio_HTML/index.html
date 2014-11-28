@@ -1,0 +1,28 @@
+<html>
+	<head>
+        <title>Audio app </title>
+        <link rel="stylesheet" type="text/css" href="player.css" />
+	</head>
+	<body>
+	<script src="http://connect.soundcloud.com/sdk.js"></script>
+<script>
+    SC.initialize({
+     client_id: 'YOUR_CLIENT_ID'
+    });
+
+// permalink to a track
+    SC.stream("/tracks/293", function(sound){
+        sound.play();
+    });
+</script>
+        <audio id="demo" src="Lil_Eddie.mp3"></audio>
+<div>
+  <button onclick="document.getElementById('demo').play();">Play the Audio</button>
+  <button onclick="document.getElementById('demo').pause();">Pause the Audio</button>
+    <button onclick="document.getElementById('demo').pause();document.getElementById('demo').currentTime = 0;">Stop the audio</button>
+  <button onclick="document.getElementById('demo').volume+=0.1;">Increase Volume</button>
+  <button onclick="document.getElementById('demo').volume-=0.1;">Decrease Volume</button>
+</div>
+
+	</body>
+</html>
