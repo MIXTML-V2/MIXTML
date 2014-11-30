@@ -35,8 +35,8 @@ function init_screen(){
 	renderer = new THREE.WebGLRenderer();
 	renderer.setSize(width, height);
 	stats = new Stats();
-				stats.domElement.style.position = 'absolute';
-				stats.domElement.style.top = '0px';
+	stats.domElement.style.position = 'absolute';
+	stats.domElement.style.top = '0px';
 	document.body.appendChild( stats.domElement );
 	document.body.appendChild( renderer.domElement );
 }
