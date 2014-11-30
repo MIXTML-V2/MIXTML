@@ -8,7 +8,7 @@
     <body>
         <script src="js/jquery.min.js"></script>
         <script src="js/buffer-loader.js"></script>
-        <script src="js/sdk_soundcloud.min.js"></script>
+        <script src="http://connect.soundcloud.com/sdk.js"></script>
         <script>
             SC.initialize({
                 client_id: 'b3bee43f97dd7fc2c777679cb276ab9f'
@@ -66,7 +66,7 @@
                 // API not supported
                 console.log('Web Audio API not supported.');
             }
-            
+
             var gainNode1 = (typeof context.createGain === 'undefined') ? context.createGainNode() : context.createGain();
             gainNode1.gain.value = 1;
             gainNode1.connect(context.destination);
