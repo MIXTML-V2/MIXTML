@@ -45,9 +45,6 @@
 			render();
 			// Boucle de rendu toutes les modifs doivent de faire ici
 			function render() {
-				console.log(sliderHoriTouch);
-				if (sliderHoriTouch && mouseDown)
-					slideHori(pick_object);
 				requestAnimationFrame( render );
 				fps_manager();
 				tourneDisqueD.rotation.z += 0.1;
