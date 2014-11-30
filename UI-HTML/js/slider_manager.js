@@ -1,5 +1,4 @@
-﻿function get_slider_init_posi()
-{
+﻿function get_slider_init_posi(){
 	for (i = 0; i < objects.length; i++)
 	{
 		if (objects[i] == sliderSpeedG || objects[i] == sliderSpeedD || objects[i] == sliderBalance)

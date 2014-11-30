@@ -25,8 +25,8 @@ function init_screen(){
 	height = window.innerHeight;
 	ratio = width / height;
 	if (ratio != 16/9){
-	ratio = 16/9;
-	height = width /ratio;
+		ratio = 16/9;
+		height = width /ratio;
 	}
 	if (width < 1280)
 		width = 1280;
