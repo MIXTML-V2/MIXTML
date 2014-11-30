@@ -51,10 +51,12 @@
             var startTime1 = 0,startTime2 = 0 ;
             var act1 = 0, act2 = 0;
             var numplayer = 0;
-            var gainNode1, gainNode2;
-            var volume1, volume2;
-            url = ['Oasis - Wonderwall.mp3','https://api.soundcloud.com/tracks/140364012/stream?client_id=b3bee43f97dd7fc2c777679cb276ab9f'];
+            var vol1 = 1, vol2 = 1;
+            var vit1 = 1, vit2 = 1;
             
+            url = ['https://api.soundcloud.com/tracks/71196332/stream?client_id=b3bee43f97dd7fc2c777679cb276ab9f','https://api.soundcloud.com/tracks/140364012/stream?client_id=b3bee43f97dd7fc2c777679cb276ab9f'];
+            //url = ['coin.mp3','oasis.mp3'];
+
             try {
                 // still needed for Safari
                 window.AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -64,12 +66,14 @@
                 // API not supported
                 console.log('Web Audio API not supported.');
             }
+            
             var gainNode1 = (typeof context.createGain === 'undefined') ? context.createGainNode() : context.createGain();
             gainNode1.gain.value = 1;
             gainNode1.connect(context.destination);
             var gainNode2 = (typeof context.createGain === 'undefined') ? context.createGainNode() : context.createGain();
             gainNode2.gain.value = 1;
             gainNode2.connect(context.destination);
+            
             init(url);
             
             function initurl(val){
@@ -88,35 +92,27 @@
                 else
                     alert("Les canaux sont pleins.");
             }
-            //            $("#playPause").addClass("pause").removeClass("play");
-            
-            //            $("#volume1").addEventListener('change', function() {
-            //                gainNode1.gain.value = this.value;
-            //            });
-            //            $("#volume2").addEventListener('change', function() {
-            //                gainNode2.gain.value = this.value;
-            //            });
-    
             
             function init(url){
                 bufferLoader = new BufferLoader(context,url,finishedLoading);
                 bufferLoader.load();
-                console.log('Init terminé.');
             }
             
             function finishedLoading(bufferList) {
+                
                 if (numplayer === 1){
                     source1 = context.createBufferSource();
                     source1.buffer = bufferList[0];
                     buffer1 = source1.buffer;
-                    gainNode1.connect(source1);
-                    source1.connect(context.destination);
+                    source1.connect(gainNode1);
+                    gainNode1.connect(context.destination);
                 }
                 else if(numplayer === 2){
                     source2 = context.createBufferSource();
                     source2.buffer = bufferList[1];
                     buffer2 = source2.buffer;
-                    source2.connect(context.destination);
+                    source2.connect(gainNode2);
+                    gainNode2.connect(context.destination);
                 }
                 else if(numplayer === 0){
                     source1 = context.createBufferSource();
@@ -130,25 +126,25 @@
                     source2.connect(gainNode2);
                     gainNode2.connect(context.destination);
                 }
-                console.log('Loading terminé');
+                console.log('Finished Loading terminé');
             }
             
             function mute(num){
                 if  (num === 1){
                     if (gainNode1.gain.value > 0){
-                        volume1 = gainNode1.gain.value;
+                        vol1 = gainNode1.gain.value;
                         gainNode1.gain.value = 0;
                     }
                     else
-                        gainNode1.gain.value = volume1;
+                        gainNode1.gain.value = vol1;
                 }
                 else if(num === 2){
                     if (gainNode2.gain.value > 0){
-                        volume2 = gainNode2.gain.value;
+                        vol2 = gainNode2.gain.value;
                         gainNode2.gain.value = 0;
                     }
                     else
-                        gainNode2.gain.value = volume2;
+                        gainNode2.gain.value = vol2;
                 }
             }
             
@@ -180,15 +176,22 @@
                 numplayer = num;
                 if (numplayer === 1){
                     startTime1 = context.currentTime;
-                    //                    source1.buffer = buffer1;
-                    //                    source1.loop = true;
+                    source1 = context.createBufferSource();
+                    source1.buffer = buffer1;
+                    source1.playbackRate.value = vit1;
+                    source1.connect(gainNode1);
+                    gainNode1.connect(context.destination);
                     source1.start(0, startOffset1 % buffer1.duration);
+                    
                     act1 = 1;
                 }
                 else if (numplayer === 2){
                     startTime2 = context.currentTime;
-                    //                    source2.buffer = buffer2;
-                    //                    source2.loop = true;
+                    source2 = context.createBufferSource();
+                    source2.playbackRate.value = vit2;
+                    source2.buffer = buffer2;
+                    source2.connect(gainNode2);
+                    gainNode2.connect(context.destination);
                     source2.start(0, startOffset2 % buffer2.duration);
                     act2 = 1;
                 }
@@ -198,13 +201,13 @@
                 numplayer = num;
                 if (numplayer === 1){
                     source1.stop();
-                    // Measure how much time passed since the last pause.
+                    vit1 = source1.playbackRate.value;
                     startOffset1 += context.currentTime - startTime1;
                     act1 = 0;
                 }
                 else if (numplayer === 2){
                     source2.stop();
-                    // Measure how much time passed since the last pause.
+                    vit2 = source2.playbackRate.value;
                     startOffset2 += context.currentTime - startTime2;
                     act2 = 0;
                 }
@@ -237,15 +240,15 @@
           
             function tempo1(val){
                 source1.playbackRate.value = val;
+                vit1 = val;
             }
             function tempo2(val){
                 source2.playbackRate.value = val;
+                vit2 = val;
             }
-            //    
-            //    // Fades between 0 (all source 1) and 1 (all source 2)
-           function crossfading(element) {
+
+            function crossfading(element) {
                 var x = parseInt(element.value) / parseInt(element.max);
-                // Use an equal-power crossfading curve:
                 var gain1 = Math.cos(x * 0.5*Math.PI);
                 var gain2 = Math.cos((1.0 - x) * 0.5*Math.PI);
                 gainNode1.gain.value = gain1;
