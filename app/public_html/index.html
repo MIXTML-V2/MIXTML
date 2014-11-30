@@ -32,7 +32,8 @@
                 SC.get("/tracks", {q: val}, function(tracks){
                     var length = tracks.length;
                     for (var i = 0; i < length; i++){
-                        $('#results').append('<p id="titleMusic'+ i +'" onclick="initurl(\''+tracks[i].stream_url+'\');">'+ tracks[i].title +' <img src="'+tracks[i].artwork_url+'" /> </p>');
+                        if (tracks[i].stream_url !== undefined)
+                            $('#results').append('<p id="titleMusic'+ i +'" onclick="initurl(\''+tracks[i].stream_url+'\');">'+ tracks[i].title +' <img src="'+tracks[i].artwork_url+'" /> </p>');
                     }
                 });
             }
@@ -63,6 +64,12 @@
                 // API not supported
                 console.log('Web Audio API not supported.');
             }
+            var gainNode1 = (typeof context.createGain === 'undefined') ? context.createGainNode() : context.createGain();
+            gainNode1.gain.value = 1;
+            gainNode1.connect(context.destination);
+            var gainNode2 = (typeof context.createGain === 'undefined') ? context.createGainNode() : context.createGain();
+            gainNode2.gain.value = 1;
+            gainNode2.connect(context.destination);
             init(url);
             
             function initurl(val){
@@ -81,14 +88,14 @@
                 else
                     alert("Les canaux sont pleins.");
             }
-//            $("#playPause").addClass("pause").removeClass("play");
+            //            $("#playPause").addClass("pause").removeClass("play");
             
-//            $("#volume1").addEventListener('change', function() {
-//                gainNode1.gain.value = this.value;
-//            });
-//            $("#volume2").addEventListener('change', function() {
-//                gainNode2.gain.value = this.value;
-//            });
+            //            $("#volume1").addEventListener('change', function() {
+            //                gainNode1.gain.value = this.value;
+            //            });
+            //            $("#volume2").addEventListener('change', function() {
+            //                gainNode2.gain.value = this.value;
+            //            });
     
             
             function init(url){
@@ -102,6 +109,7 @@
                     source1 = context.createBufferSource();
                     source1.buffer = bufferList[0];
                     buffer1 = source1.buffer;
+                    gainNode1.connect(source1);
                     source1.connect(context.destination);
                 }
                 else if(numplayer === 2){
@@ -114,11 +122,13 @@
                     source1 = context.createBufferSource();
                     source1.buffer = bufferList[0];
                     buffer1 = source1.buffer;
-                    source1.connect(context.destination);
+                    source1.connect(gainNode1);
+                    gainNode1.connect(context.destination);
                     source2 = context.createBufferSource();
                     source2.buffer = bufferList[1];
                     buffer2 = source2.buffer;
-                    source2.connect(context.destination);
+                    source2.connect(gainNode2);
+                    gainNode2.connect(context.destination);
                 }
                 console.log('Loading terminé');
             }
@@ -140,7 +150,6 @@
                     else
                         gainNode2.gain.value = volume2;
                 }
-                
             }
             
             function playPause(num){
@@ -171,23 +180,15 @@
                 numplayer = num;
                 if (numplayer === 1){
                     startTime1 = context.currentTime;
-                    source1 = context.createBufferSource();
-                    // Connect graph
-                    source1.buffer = buffer1;
-                    source1.loop = true;
-                    source1.connect(context.destination);
-                    // Start playback, but make sure we stay in bound of the buffer.
+                    //                    source1.buffer = buffer1;
+                    //                    source1.loop = true;
                     source1.start(0, startOffset1 % buffer1.duration);
                     act1 = 1;
                 }
                 else if (numplayer === 2){
                     startTime2 = context.currentTime;
-                    source2 = context.createBufferSource();
-                    // Connect graph
-                    source2.buffer = buffer2;
-                    source2.loop = true;
-                    source2.connect(context.destination);
-                    // Start playback, but make sure we stay in bound of the buffer.
+                    //                    source2.buffer = buffer2;
+                    //                    source2.loop = true;
                     source2.start(0, startOffset2 % buffer2.duration);
                     act2 = 1;
                 }
@@ -226,6 +227,32 @@
                     act2 = 0;
                 }
             }
+            
+            function volume1(val){
+                gainNode1.gain.value = val;
+            }
+            function volume2(val){
+                gainNode2.gain.value = val;
+            }
+          
+            function tempo1(val){
+                source1.playbackRate.value = val;
+            }
+            function tempo2(val){
+                source2.playbackRate.value = val;
+            }
+            //    
+            //    // Fades between 0 (all source 1) and 1 (all source 2)
+           function crossfading(element) {
+                var x = parseInt(element.value) / parseInt(element.max);
+                // Use an equal-power crossfading curve:
+                var gain1 = Math.cos(x * 0.5*Math.PI);
+                var gain2 = Math.cos((1.0 - x) * 0.5*Math.PI);
+                gainNode1.gain.value = gain1;
+                gainNode2.gain.value = gain2;
+            };
+    
+    
             
         </script>
         
@@ -274,23 +301,30 @@
                 background-color:#fcfcfc;
             }
         </style>
-        <div id="player1">
+        <div id="player1" style="float: left; margin-right: 20px;">
             <p id="playPause" class="play" onclick="playPause(1);"/>
             <p class="stop" onclick="stop(1);"/>
             <p>Volume</p>
-            <input id="volume1" type="range" min="0" max="1" step="0.1" value="0.5"/>
+            <input id="volume1" class="volume1" onchange="volume1(value);" type="range" min="0" max="1" step="0.1" value="1"/>
             <p class="mute" onclick="mute(1);">Mute</p>
+            <p>Tempo</p>
+            <input id="tempo1" class="tempo1" onchange="tempo1(value);" type="range" min="0.5" max="1.5" step="0.1" value="1"/>
         </div>
-        <div id="player2">
+        <div id="player2" style="float: left;">
             <p id="playPause2" class="play" onclick="playPause(2);"/>
             <p class="stop" onclick="stop(2);"/>
             <p>Volume</p>
-            <input id="volume2" type="range" min="0" max="1" step="0.1" value="0.5"/>
+            <input id="volume2" class="volume2" onchange="volume2(value);" type="range" min="0" max="1" step="0.1" value="1"/>
             <p class="mute" onclick="mute(2);">Mute</p>
+            <p>Tempo</p>
+            <input id="tempo2" class="tempo2" onchange="tempo2(value);" type="range" min="0.5" max="1.5" step="0.1" value="1"/>
         </div>
-        <div id="search">
+        <div id="search" style="float: left;">
             <span><input id="searchValue" type="text" class="search rounded" placeholder="Recherche..."><input id="searchButton" type="button" onclick="search(#value.)" value="Recherche"></span>
         </div>
+        <div style="clear: both;"/>
+        <p>CrossFadding</p>
+        <input type="range" min="0" max="100" value="50" oninput="crossfading(this);"/>
         <div id="results"></div>
     </body>
 </html>
