@@ -38,6 +38,12 @@
 			sliderHoriTouch = true;
 			console.log( 'touch slider speed droite' );
 		}
+		if (pick_object == sliderBalance)
+		{
+			slider_positionX = sliderBalance.position.x;
+			sliderHoriTouch = true;
+			console.log( 'touch slider speed droite' );
+		}
 	}
 	mouseDown = true;
 }
