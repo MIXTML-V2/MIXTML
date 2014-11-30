@@ -26,24 +26,10 @@
 			sliderVertTouch = true;
 			console.log( 'touch slider volume gauche' );
 		}
-		if (pick_object == sliderSpeedG)
-		{
-			slider_positionX = sliderSpeedG.position.x;
-			sliderHoriTouch = true;
-			console.log( 'touch slider speed gauche' );
-		}
-		if (pick_object == sliderSpeedD)
-		{
-			slider_positionX = sliderSpeedD.position.x;
-			sliderHoriTouch = true;
-			console.log( 'touch slider speed droite' );
-		}
-		if (pick_object == sliderBalance)
-		{
-			slider_positionX = sliderBalance.position.x;
-			sliderHoriTouch = true;
-			console.log( 'touch slider speed droite' );
-		}
+		if (pick_object == sliderSpeedG || 
+			pick_object == sliderSpeedD || 
+			pick_object == sliderBalance)
+			init_slideHori(pick_object);
 	}
 	mouseDown = true;
 }
@@ -54,10 +40,6 @@ function onDocumentMouseUp( event ) {
 	mouseDown = false;
 	sliderVertTouch = false;
 	sliderHoriTouch = false;
-	
-	document.removeEventListener( 'mousemove', mousemove );
-	document.removeEventListener( 'mouseup', mouseup );
-	_this.dispatchEvent( endEvent );
 }
 function onDocumentMouseMove( event ) {
 	if (mouseDown){
@@ -66,12 +48,6 @@ function onDocumentMouseMove( event ) {
 		if (sliderVertTouch)
 			pick_object.position.y = slider_positionY - ((mouseY - mouseDownY)/(height / 4.125));
 		if (sliderHoriTouch)
-			pick_object.position.x = slider_positionX + ((mouseX - mouseDownX)/(width / 7));
-		now = Date.now();
-		delta = now - then;
-		 
-		if (delta > interval) {
-			then = now - (delta % interval);
-		}
+			slideHori(pick_object);
 	}
 }

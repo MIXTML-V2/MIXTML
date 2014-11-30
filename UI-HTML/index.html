@@ -11,12 +11,15 @@
 		<script src="js/init_scene.js"></script>
 		<script src="js/mouse_manager.js"></script>
 		<script src="js/fps_manager.js"></script>
+		<script src="js/slider_manager.js"></script>
 		<script src="js/libs/stats.min.js"></script>
 		<script> 
 			// variable initialisation de la scène
 			var scene, width, height, ratio, camera, renderer, stat;
 			// tableau qui va contenir tout les objects de la scène
 			var objects = [];
+			var posi_object_X = [];
+			var posi_object_Y = [];
 			var pick_object, raycaster;
 			var sliderVertTouch , sliderHoriTouch = false;
 			var slider_positionY, slider_positionX;
@@ -42,11 +45,13 @@
 			render();
 			// Boucle de rendu toutes les modifs doivent de faire ici
 			function render() {
-				requestAnimationFrame( render );				
+				console.log(sliderHoriTouch);
+				if (sliderHoriTouch && mouseDown)
+					slideHori(pick_object);
+				requestAnimationFrame( render );
 				fps_manager();
 				tourneDisqueD.rotation.z += 0.1;
 				tourneDisqueG.rotation.z += 0.1;
-				//console.log(renderer.info.render);
 				renderer.render( scene, camera );
 				stats.update();
 			}	

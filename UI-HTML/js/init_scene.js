@@ -15,6 +15,7 @@
 	// Balance
 	init_slider_sound_balance();
 	init_object();
+	get_slider_init_posi();
 	camera.position.z = 5;
 }
 function init_screen(){
@@ -62,7 +63,7 @@ function init_plat(){
 	tourneDisqueG.position.y = positionY;
 }
 function init_slider_vert() {
-	sliderVertGeometry = new THREE.BoxGeometry( 2 * sliderSize, 1 * sliderSize, 0.1 * sliderSize );
+	sliderVertGeometry = new THREE.BoxGeometry( 1 * sliderSize, 2 * sliderSize, 0.1 * sliderSize );
 	sliderVolG = new THREE.Mesh( sliderVertGeometry, slider_mat );
 	sliderVolD = new THREE.Mesh( sliderVertGeometry, slider_mat );
 	scene.add( sliderVolG, sliderVolD );
@@ -71,6 +72,8 @@ function init_slider_vert() {
 	sliderVolG.position.x = -2.15 + positionX;
 	sliderVolD.position.y = positionY;
 	sliderVolG.position.y = positionY;
+	sliderVolD.rotation.z = 3.14/2;
+	sliderVolG.rotation.z = 3.14/2;
 }
 function init_slider_hori() {
 	sliderHoriGeometry = new THREE.BoxGeometry( 1 * sliderSize, 2 * sliderSize, 0.1 * sliderSize );
