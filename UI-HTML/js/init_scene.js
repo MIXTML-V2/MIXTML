@@ -36,6 +36,7 @@ function init_screen(){
 	renderer = new THREE.WebGLRenderer();
 	renderer.setClearColor( 0xf0f0f0 );
 	renderer.setSize(width, height);
+	$("#block_recherche").css("height", height);
 	stats = new Stats();
 	stats.domElement.style.position = 'absolute';
 	stats.domElement.style.top = '0px';

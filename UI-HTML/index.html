@@ -53,6 +53,7 @@
 			render();
 			// Boucle de rendu toutes les modifs doivent de faire ici
 			function render() {
+				$("#block_recherche").css("height", height);
 				requestAnimationFrame( render );
 				fps_manager();
 				turn_on_left();
@@ -60,6 +61,8 @@
 				renderer.render( scene, camera );
 				stats.update();
 			}	
+			
+			
 		</script>
 		<!-- <div id="search" style="width: 23.5%; position: absolute; right:0px; top: 5px;">
             <span>
@@ -69,14 +72,14 @@
 		</div> 
 		<div id="results" style="width: 22%; position: absolute; right:0px; top: 5px"></div>
 		-->
-		<div id="block_recherche" style="position: absolute; right:0px; top: 5px; width: 23.5%;border: 1px solid;">
+		<div id="block_recherche" style="position: absolute; right:0px; top: 5px; width: 23.5%;border: 1px solid; z-index: 99999!important; overflow: auto;">
             <div id="search">
                 <span>
                     <input id="searchValue" type="text" class="search rounded" placeholder="Recherche..." style="width : 70%;">
-                    <input id="searchButton" type="button" onclick="search(#value.)" value="Recherche" style="float : right;height: 100%;">
+                    <input id="searchButton" type="button" onclick="search(#value.)" value="Recherche" style="float : right;">
                 </span>
             </div>
-            <div id="results" ></div>
+            <div id="results" style="height: 100%;"></div>
         </div>
 	</body>
 </html>

@@ -18,8 +18,8 @@ function search(val){
     SC.get("/tracks", {q: val}, function(tracks){
         var length = tracks.length;
         for (var i = 0; i < length; i++){
-if (tracks[i].stream_url !== undefined)
-    $('#results').append('<p id="titleMusic'+ i +'" onclick="initurl(\''+tracks[i].stream_url+'\');">'+ tracks[i].title +' <img src="'+tracks[i].artwork_url+'" /> </p>');
+			if (tracks[i].stream_url !== undefined)
+				$('#results').append('<span onclick="initurl(\''+tracks[i].stream_url+'\');"> <table><tr><td><img src="'+tracks[i].artwork_url+'" height="50" width="50" /></td> <td>'+ tracks[i].title.substring(0, 80) +'</td></table></span><br/>');
         }
     });
 }
@@ -86,7 +86,7 @@ function finishedLoading(bufferList) {
 		buffer1 = source1.buffer;
 		source1.connect(gainNode1);
 		gainNode1.connect(context.destination);
-		tourneDisqueG.material.color.setHex( 0xfffff );
+		tourneDisqueG.material.color.setHex( 0xffffff );
 		console.log('Finished Loading terminé 1');
 	}
 	else if(numplayer === 2){
