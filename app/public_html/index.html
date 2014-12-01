@@ -7,14 +7,9 @@
         
     </head>
     <body>
-<<<<<<< HEAD
         <link rel="stylesheet" type="text/css" href="css/ajaxloader.css">
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
         <script type="text/javascript" src="./js/buffer-loader.js"></script>
-=======
-        <script src="js/jquery.min.js"></script>
-        <script src="js/buffer-loader.js"></script>
->>>>>>> FETCH_HEAD
         <script src="http://connect.soundcloud.com/sdk.js"></script>
         <script>
             SC.initialize({
@@ -73,7 +68,7 @@
                 // API not supported
                 console.log('Web Audio API not supported.');
             }
-
+            
             var gainNode1 = (typeof context.createGain === 'undefined') ? context.createGainNode() : context.createGain();
             gainNode1.gain.value = 1;
             gainNode1.connect(context.destination);
@@ -328,14 +323,14 @@
             <p>Tempo</p>
             <input id="tempo2" class="tempo2" onchange="tempo2(value);" type="range" min="0.5" max="1.5" step="0.1" value="1"/>
         </div>
-        <div id="block_recherche" style="float: left; width: 23.5%;border: 1px solid;">
-            <div id="search" >
+        <div id="block_recherche" style="float: left; width: 23.5%;border: 1px solid; height: 500px;overflow: auto;">
+            <div id="search">
                 <span>
                     <input id="searchValue" type="text" class="search rounded" placeholder="Recherche..." style="width : 70%;">
-                    <input id="searchButton" type="button" onclick="search(#value.)" value="Recherche" style="float : right;">
+                    <input id="searchButton" type="button" onclick="search(#value.)" value="Recherche" style="float : right;height: 100%;">
                 </span>
             </div>
-            <div id="results" style="overflow: auto; height: 700px;"></div>
+            <div id="results" ></div>
         </div>
         
         <div style="clear: both;"/>
