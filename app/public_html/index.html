@@ -7,9 +7,14 @@
         
     </head>
     <body>
+<<<<<<< HEAD
         <link rel="stylesheet" type="text/css" href="css/ajaxloader.css">
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
         <script type="text/javascript" src="./js/buffer-loader.js"></script>
+=======
+        <script src="js/jquery.min.js"></script>
+        <script src="js/buffer-loader.js"></script>
+>>>>>>> FETCH_HEAD
         <script src="http://connect.soundcloud.com/sdk.js"></script>
         <script>
             SC.initialize({
@@ -68,7 +73,7 @@
                 // API not supported
                 console.log('Web Audio API not supported.');
             }
-            
+
             var gainNode1 = (typeof context.createGain === 'undefined') ? context.createGainNode() : context.createGain();
             gainNode1.gain.value = 1;
             gainNode1.connect(context.destination);
