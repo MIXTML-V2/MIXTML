@@ -70,6 +70,7 @@ function finishedLoading(bufferList) {
 		buffer1 = source1.buffer;
 		source1.connect(gainNode1);
 		gainNode1.connect(context.destination);
+		console.log('Finished Loading terminé 1');
 	}
 	else if(numplayer === 2){
 		source2 = context.createBufferSource();
@@ -77,6 +78,7 @@ function finishedLoading(bufferList) {
 		buffer2 = source2.buffer;
 		source2.connect(gainNode2);
 		gainNode2.connect(context.destination);
+		console.log('Finished Loading terminé 2');
 	}
 	else if(numplayer === 0){
 		source1 = context.createBufferSource();
@@ -89,6 +91,7 @@ function finishedLoading(bufferList) {
 		buffer2 = source2.buffer;
 		source2.connect(gainNode2);
 		gainNode2.connect(context.destination);
+		console.log('Finished Loading terminé 0');
 	}
 	console.log('Finished Loading terminé');
 }

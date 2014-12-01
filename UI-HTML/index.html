@@ -4,6 +4,10 @@
 		<link rel="stylesheet" type="text/css" href="css/design.css" media="all"/> 
 	</head>
 	<body>
+		<div id="search" style="width: 23.5%; position: absolute; right:0px; top: 5px;">
+            <span><input id="searchValue" type="" class="search rounded" placeholder="Recherche..."><input id="searchButton" type="button" onclick="search(#value.)" value="Recherche"></span>
+		</div>
+		<div id="results" style="width: 23.5%; position: absolute; right:0px; top: 5px"></div>
 		<script src="js/three.min.js"></script>
 		<script src="js/libs/stats.min.js"></script>		
 		<script src="js/renderers/Projector.js"></script>
@@ -23,6 +27,15 @@
 			SC.initialize({
                 client_id: 'b3bee43f97dd7fc2c777679cb276ab9f'
             });
+			function search(val){
+                SC.get("/tracks", {q: val}, function(tracks){
+                    var length = tracks.length;
+                    for (var i = 0; i < length; i++){
+                        if (tracks[i].stream_url !== undefined)
+                            $('#results').append('<p id="titleMusic'+ i +'" onclick="initurl(\''+tracks[i].stream_url+'\');">'+ tracks[i].title +' <img src="'+tracks[i].artwork_url+'" /> </p>');
+                    }
+                });
+            }
 			// variable initialisation de la scène
 			var scene, width, height, ratio, camera, renderer, stat;
 			// tableau qui va contenir tout les objects de la scène
@@ -62,5 +75,6 @@
 				stats.update();
 			}	
 		</script>
+		
 	</body>
 </html>
