@@ -4,10 +4,7 @@
 		<link rel="stylesheet" type="text/css" href="css/design.css" media="all"/> 
 	</head>
 	<body>
-		<div id="search" style="width: 23.5%; position: absolute; right:0px; top: 5px;">
-            <span><input id="searchValue" type="" class="search rounded" placeholder="Recherche..."><input id="searchButton" type="button" onclick="search(#value.)" value="Recherche"></span>
-		</div>
-		<div id="results" style="width: 23.5%; position: absolute; right:0px; top: 5px"></div>
+		
 		<script src="js/three.min.js"></script>
 		<script src="js/libs/stats.min.js"></script>		
 		<script src="js/renderers/Projector.js"></script>
@@ -75,6 +72,9 @@
 				stats.update();
 			}	
 		</script>
-		
+		<div id="search" style="width: 23.5%; position: absolute; right:0px; top: 5px;">
+            <span><input id="searchValue" type="" class="search rounded" placeholder="Recherche..."><input id="searchButton" type="button" onclick="search(#value.)" value="Recherche"></span>
+		</div>
+		<div id="results" style="width: 23.5%; position: absolute; right:0px; top: 5px"></div>
 	</body>
 </html>
