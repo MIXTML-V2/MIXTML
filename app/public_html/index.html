@@ -4,8 +4,10 @@
         <title>MIXTML</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
     </head>
     <body>
+        <link rel="stylesheet" type="text/css" href="css/ajaxloader.css">
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
         <script type="text/javascript" src="./js/buffer-loader.js"></script>
         <script src="http://connect.soundcloud.com/sdk.js"></script>
@@ -31,14 +33,14 @@
             function search(val){
                 SC.get("/tracks", {q: val}, function(tracks){
                     var length = tracks.length;
+                    $('#results').html('');
                     for (var i = 0; i < length; i++){
                         if (tracks[i].stream_url !== undefined)
-                            $('#results').append('<p id="titleMusic'+ i +'" onclick="initurl(\''+tracks[i].stream_url+'\');">'+ tracks[i].title +' <img src="'+tracks[i].artwork_url+'" /> </p>');
+                            $('#results').append('<span onclick="initurl(\''+tracks[i].stream_url+'\');"> <table><tr><td><img src="'+tracks[i].artwork_url+'" height="50" width="50" /></td> <td>'+ tracks[i].title.substring(0, 80) +'</td></table></span><br/>');
                     }
                 });
             }
-    
-    
+            
         </script>
         
         
@@ -54,8 +56,8 @@
             var vol1 = 1, vol2 = 1;
             var vit1 = 1, vit2 = 1;
             
-            url = ['https://api.soundcloud.com/tracks/71196332/stream?client_id=b3bee43f97dd7fc2c777679cb276ab9f','https://api.soundcloud.com/tracks/140364012/stream?client_id=b3bee43f97dd7fc2c777679cb276ab9f'];
-            //url = ['coin.mp3','oasis.mp3'];
+            //url = ['https://api.soundcloud.com/tracks/71196332/stream?client_id=b3bee43f97dd7fc2c777679cb276ab9f','https://api.soundcloud.com/tracks/140364012/stream?client_id=b3bee43f97dd7fc2c777679cb276ab9f'];
+            url = ['coin.mp3','oasis.mp3'];
 
             try {
                 // still needed for Safari
@@ -78,13 +80,11 @@
             
             function initurl(val){
                 if (act1 === 0){
-                    stop(1);
                     url[0] = String(val) + '?client_id=b3bee43f97dd7fc2c777679cb276ab9f';
                     numplayer = 1;
                     init(url);
                 }    
                 else if(act2 === 0){
-                    stop(2);
                     url[1] = String(val) + '?client_id=b3bee43f97dd7fc2c777679cb276ab9f';
                     numplayer = 2;
                     init(url);
@@ -94,6 +94,7 @@
             }
             
             function init(url){
+                $("#ajaxloader").css("display", "block");
                 bufferLoader = new BufferLoader(context,url,finishedLoading);
                 bufferLoader.load();
             }
@@ -126,6 +127,7 @@
                     source2.connect(gainNode2);
                     gainNode2.connect(context.destination);
                 }
+                $("#ajaxloader").css("display", "none");
                 console.log('Finished Loading terminé');
             }
             
@@ -218,14 +220,12 @@
                 if (numplayer === 1){
                     source1.stop();
                     $("#playPause").addClass("play").removeClass("pause");
-                    // Measure how much time passed since the last pause.
                     startOffset1 = 0;
                     act1 = 0;
                 }
                 else if (numplayer === 2){
                     source2.stop();
                     $("#playPause2").addClass("play").removeClass("pause");
-                    // Measure how much time passed since the last pause.
                     startOffset2 = 0;
                     act2 = 0;
                 }
@@ -304,6 +304,7 @@
                 background-color:#fcfcfc;
             }
         </style>
+        <div id="ajaxloader"><img src="http://www.mytreedb.com/uploads/mytreedb/loader/ajax_loader_blue_512.gif" height="30" width="30"/></div>
         <div id="player1" style="float: left; margin-right: 20px;">
             <p id="playPause" class="play" onclick="playPause(1);"/>
             <p class="stop" onclick="stop(1);"/>
@@ -322,9 +323,16 @@
             <p>Tempo</p>
             <input id="tempo2" class="tempo2" onchange="tempo2(value);" type="range" min="0.5" max="1.5" step="0.1" value="1"/>
         </div>
-        <div id="search" style="float: left;">
-            <span><input id="searchValue" type="text" class="search rounded" placeholder="Recherche..."><input id="searchButton" type="button" onclick="search(#value.)" value="Recherche"></span>
+        <div id="block_recherche" style="float: left; width: 23.5%;border: 1px solid;">
+            <div id="search" >
+                <span>
+                    <input id="searchValue" type="text" class="search rounded" placeholder="Recherche..." style="width : 70%;">
+                    <input id="searchButton" type="button" onclick="search(#value.)" value="Recherche" style="float : right;">
+                </span>
+            </div>
+            <div id="results" style="overflow: auto; height: 700px;"></div>
         </div>
+        
         <div style="clear: both;"/>
         <p>CrossFadding</p>
         <input type="range" min="0" max="100" value="50" oninput="crossfading(this);"/>
