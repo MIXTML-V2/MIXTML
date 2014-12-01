@@ -2,6 +2,29 @@
 var SpeedG, SpeedD;
 var playG, playD;
 
+SC.initialize({
+    client_id: 'b3bee43f97dd7fc2c777679cb276ab9f'
+});
+$(document).ready(function() {
+    $("#searchValue").keyup(function(event){
+        if(event.keyCode === 13){
+			search($('#searchValue').val());
+        }
+    });
+    $('#searchButton').click(function() {
+        search($('#searchValue').val());
+    });
+});
+function search(val){
+    SC.get("/tracks", {q: val}, function(tracks){
+        var length = tracks.length;
+        for (var i = 0; i < length; i++){
+if (tracks[i].stream_url !== undefined)
+    $('#results').append('<p id="titleMusic'+ i +'" onclick="initurl(\''+tracks[i].stream_url+'\');">'+ tracks[i].title +' <img src="'+tracks[i].artwork_url+'" /> </p>');
+        }
+    });
+}
+
 /*function init_bridge(){
 	
 }
