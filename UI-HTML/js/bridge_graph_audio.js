@@ -1,4 +1,4 @@
-﻿var VolD, VolG, VolBalance;
+﻿var VolD = VolG = VolBalance = 0.5;
 var SpeedG, SpeedD;
 var playG, playD;
 
@@ -48,10 +48,10 @@ try {
 }
 
 var gainNode1 = (typeof context.createGain === 'undefined') ? context.createGainNode() : context.createGain();
-gainNode1.gain.value = 1;
+gainNode1.gain.value = VolG;
 gainNode1.connect(context.destination);
 var gainNode2 = (typeof context.createGain === 'undefined') ? context.createGainNode() : context.createGain();
-gainNode2.gain.value = 1;
+gainNode2.gain.value = VolD;
 gainNode2.connect(context.destination);
 
 init(url);
@@ -109,6 +109,25 @@ function finishedLoading(bufferList) {
 		console.log('Finished Loading terminé 0');
 	}
 	console.log('Finished Loading terminé');
+}
+
+function mute(num){
+	if  (num === 1){
+		if (gainNode1.gain.value > 0){
+			volume1 = gainNode1.gain.value;
+			gainNode1.gain.value = 0;
+		}
+		else
+			gainNode1.gain.value = VolG;
+	}
+	else if(num === 2){
+		if (gainNode2.gain.value > 0){
+			volume2 = gainNode2.gain.value;
+			gainNode2.gain.value = 0;
+		}
+		else
+			gainNode2.gain.value = VolD;
+	}
 }
 
 function play_pause(picked_object){
@@ -184,6 +203,13 @@ function pause(num) {
 	}
 }
 
+function volume1(val){
+	gainNode1.gain.value = val;
+}
+function volume2(val){
+	gainNode2.gain.value = val;
+}
+
 function tempo1(val){
     source1.playbackRate.value = val;
     vit1 = val;
@@ -199,5 +225,5 @@ function crossfading(element) {
     var gain2 = Math.cos((1.0 - x) * 0.5*Math.PI);
     gainNode1.gain.value = gain1;
     gainNode2.gain.value = gain2;
-};
+}
 

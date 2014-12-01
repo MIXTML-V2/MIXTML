@@ -25,7 +25,7 @@ function init_slideVert(picked_object){
 
 function slideVert(picked_object){
 	var mid_slide;
-	var rayon = 0.8;
+	var rayon = 0.5;
 	if (picked_object == sliderVolG)
 		mid_slide = posi_object_Y[0];
 	if (picked_object == sliderVolD)
@@ -37,6 +37,11 @@ function slideVert(picked_object){
 		picked_object.position.y = mid_slide + rayon;
 	if (picked_object.position.y <= mid_slide - rayon)
 		picked_object.position.y = mid_slide - rayon;
+
+	VolG = sliderVolG.position.y + 0.3;
+	VolD = sliderVolD.position.y + 0.3;
+	volume1(VolG);
+	volume2(VolD);
 }
 
 function init_slideHori(picked_object){
@@ -53,7 +58,7 @@ function init_slideHori(picked_object){
 
 function slideHori(picked_object){
 	var mid_slide;
-	var rayon = 0.8;
+	var rayon = 0.5;
 	if (picked_object == sliderSpeedG)
 		mid_slide = posi_object_X[0];
 	if (picked_object == sliderSpeedD)
