@@ -34,6 +34,7 @@ function init_screen(){
 		height = 720;
 	camera = new THREE.PerspectiveCamera( 45, ratio, 1, 1000 );
 	renderer = new THREE.WebGLRenderer();
+	renderer.setClearColor( 0xf0f0f0 );
 	renderer.setSize(width, height);
 	stats = new Stats();
 	stats.domElement.style.position = 'absolute';
@@ -42,25 +43,28 @@ function init_screen(){
 	document.body.appendChild( renderer.domElement );
 }
 function init_mat(){
-	var texture_plat = new THREE.ImageUtils.loadTexture('ressources/plat.png');
-	plat_mat = new THREE.MeshBasicMaterial({ map: texture_plat });
+	texture_plat = new THREE.ImageUtils.loadTexture('ressources/plat.png');
+	plat_matG = new THREE.MeshBasicMaterial({ map: texture_plat});
+	plat_matD = new THREE.MeshBasicMaterial({ map: texture_plat});
 	texture_plat = new THREE.ImageUtils.loadTexture('ressources/sliders.jpg');
 	slider_mat = new THREE.MeshBasicMaterial({ map: texture_plat });
 }
 function init_plat(){
 	radius = 0.45 * ratio;
-	segments = 24;
+	segments = 32;
 	espacementPlat = (2 * radius) - (2 * radius / 3);
 	circleGeometry = new THREE.CircleGeometry( radius, segments );	
 	// création et ajout des objects platines
-	tourneDisqueG = new THREE.Mesh( circleGeometry, plat_mat );
-	tourneDisqueD = new THREE.Mesh( circleGeometry, plat_mat );
+	tourneDisqueG = new THREE.Mesh( circleGeometry, plat_matG );
+	tourneDisqueD = new THREE.Mesh( circleGeometry, plat_matD );
 	scene.add( tourneDisqueD, tourneDisqueG );
 	objects.push ( tourneDisqueD, tourneDisqueG );
 	tourneDisqueD.position.x = positionX + espacementPlat ;
 	tourneDisqueG.position.x = positionX - espacementPlat ;
 	tourneDisqueD.position.y = positionY;
 	tourneDisqueG.position.y = positionY;
+	tourneDisqueG.material.color.setHex( 0xff0000 );
+	tourneDisqueD.material.color.setHex( 0xff0000 );
 }
 function init_slider_vert() {
 	sliderVertGeometry = new THREE.BoxGeometry( 1 * sliderSize, 2 * sliderSize, 0.1 * sliderSize );
@@ -95,7 +99,7 @@ function init_slider_sound_balance() {
 }
 function init_object() {
 	var playliste_forme = new THREE.BoxGeometry( 1.7, 4.2, 0.1 );
-	var object_mat = new THREE.MeshBasicMaterial({color: 0xff5500});
+	var object_mat = new THREE.MeshBasicMaterial({color: 0x959595});
 	playlist = new THREE.Mesh( playliste_forme, object_mat );
 	scene.add( playlist );
 	objects.push ( playlist );

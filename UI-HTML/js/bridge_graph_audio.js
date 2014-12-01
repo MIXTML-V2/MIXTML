@@ -1,6 +1,5 @@
 ﻿var VolD = VolG = VolBalance = 0.5;
-var SpeedG, SpeedD;
-var playG, playD;
+var SpeedG = SpeedD = 1;
 
 SC.initialize({
     client_id: 'b3bee43f97dd7fc2c777679cb276ab9f'
@@ -58,12 +57,14 @@ init(url);
 
 function initurl(val){
     if (act1 === 0){
+		tourneDisqueG.material.color.setHex( 0xff0000 );
         stop(1);
         url[0] = String(val) + '?client_id=b3bee43f97dd7fc2c777679cb276ab9f';
         numplayer = 1;
         init(url);
     }    
     else if(act2 === 0){
+		tourneDisqueD.material.color.setHex( 0xff0000 );
         stop(2);
         url[1] = String(val) + '?client_id=b3bee43f97dd7fc2c777679cb276ab9f';
         numplayer = 2;
@@ -85,6 +86,7 @@ function finishedLoading(bufferList) {
 		buffer1 = source1.buffer;
 		source1.connect(gainNode1);
 		gainNode1.connect(context.destination);
+		tourneDisqueG.material.color.setHex( 0xfffff );
 		console.log('Finished Loading terminé 1');
 	}
 	else if(numplayer === 2){
@@ -93,6 +95,7 @@ function finishedLoading(bufferList) {
 		buffer2 = source2.buffer;
 		source2.connect(gainNode2);
 		gainNode2.connect(context.destination);
+		tourneDisqueD.material.color.setHex( 0xffffff );
 		console.log('Finished Loading terminé 2');
 	}
 	else if(numplayer === 0){
@@ -107,6 +110,8 @@ function finishedLoading(bufferList) {
 		source2.connect(gainNode2);
 		gainNode2.connect(context.destination);
 		console.log('Finished Loading terminé 0');
+		tourneDisqueG.material.color.setHex( 0xffffff );
+		tourneDisqueD.material.color.setHex( 0xffffff );
 	}
 	console.log('Finished Loading terminé');
 }
@@ -222,7 +227,7 @@ function tempo2(val){
 function crossfading(x) {
     var gain1 = Math.cos(x * 0.5*Math.PI);
     var gain2 = Math.cos((1.0 - x) * 0.5*Math.PI);
-    gainNode1.gain.value = gain1;
-    gainNode2.gain.value = gain2;
+    gainNode1.gain.value = gain2;
+    gainNode2.gain.value = gain1;
 }
 
