@@ -34,7 +34,7 @@ function init_screen(){
 		height = 720;
 	camera = new THREE.PerspectiveCamera( 45, ratio, 1, 1000 );
 	renderer = new THREE.WebGLRenderer();
-	renderer.setClearColor( 0xf0f0f0 );
+	renderer.setClearColor( 0xffffff );
 	renderer.setSize(width, height);
 	stats = new Stats();
 	stats.domElement.style.position = 'absolute';
@@ -99,7 +99,7 @@ function init_slider_sound_balance() {
 }
 function init_object() {
 	var playliste_forme = new THREE.BoxGeometry( 1.7, 4.2, 0.1 );
-	var object_mat = new THREE.MeshBasicMaterial({color: 0x959595});
+	var object_mat = new THREE.MeshBasicMaterial({color: 0xbadc01});
 	playlist = new THREE.Mesh( playliste_forme, object_mat );
 	scene.add( playlist );
 	objects.push ( playlist );
