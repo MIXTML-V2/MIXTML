@@ -1,4 +1,4 @@
-﻿function init(){
+﻿function init_graph(){
 	//création de la scène
 	init_screen();
 	projector = new THREE.Projector();
