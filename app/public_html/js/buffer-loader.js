@@ -1,4 +1,3 @@
-console.log("Buffer loader ok !")
 function BufferLoader(context, urlList, callback) {
   this.context = context;
   this.urlList = urlList;
@@ -8,6 +7,7 @@ function BufferLoader(context, urlList, callback) {
 }
 
 BufferLoader.prototype.loadBuffer = function(url, index) {
+    console.log("Buffer Starting...");
   // Load buffer asynchronously
   var request = new XMLHttpRequest();
   request.open("GET", url, true);
