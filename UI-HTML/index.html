@@ -61,9 +61,22 @@
 				stats.update();
 			}	
 		</script>
-		<div id="search" style="width: 23.5%; position: absolute; right:0px; top: 5px;">
-            <span><input id="searchValue" type="" class="search rounded" placeholder="Recherche..."><input id="searchButton" type="button" onclick="search(#value.)" value="Recherche"></span>
-		</div>
-		<div id="results" style="width: 23.5%; position: absolute; right:0px; top: 5px"></div>
+		<!-- <div id="search" style="width: 23.5%; position: absolute; right:0px; top: 5px;">
+            <span>
+				<input id="searchValue" type="" class="search rounded" placeholder="Recherche...">
+				<input id="searchButton" type="button" onclick="search(#value.)" value="Recherche">
+			</span>
+		</div> 
+		<div id="results" style="width: 22%; position: absolute; right:0px; top: 5px"></div>
+		-->
+		<div id="block_recherche" style="position: absolute; right:0px; top: 5px; width: 23.5%;border: 1px solid;">
+            <div id="search">
+                <span>
+                    <input id="searchValue" type="text" class="search rounded" placeholder="Recherche..." style="width : 70%;">
+                    <input id="searchButton" type="button" onclick="search(#value.)" value="Recherche" style="float : right;height: 100%;">
+                </span>
+            </div>
+            <div id="results" ></div>
+        </div>
 	</body>
 </html>
