@@ -17,6 +17,7 @@ $(document).ready(function() {
 function search(val){
     SC.get("/tracks", {q: val}, function(tracks){
         var length = tracks.length;
+		$('#results').html('');
         for (var i = 0; i < length; i++){
 			if (tracks[i].stream_url !== undefined)
 				$('#results').append('<span onclick="initurl(\''+tracks[i].stream_url+'\');"> <table><tr><td><img src="'+tracks[i].artwork_url+'" height="50" width="50" /></td> <td>'+ tracks[i].title.substring(0, 80) +'</td></table></span><br/>');
