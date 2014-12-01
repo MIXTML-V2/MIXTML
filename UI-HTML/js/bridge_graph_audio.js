@@ -219,8 +219,7 @@ function tempo2(val){
     vit2 = val;
 }
 
-function crossfading(element) {
-    var x = parseInt(element.value) / parseInt(element.max);
+function crossfading(x) {
     var gain1 = Math.cos(x * 0.5*Math.PI);
     var gain2 = Math.cos((1.0 - x) * 0.5*Math.PI);
     gainNode1.gain.value = gain1;
