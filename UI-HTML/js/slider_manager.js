@@ -74,6 +74,11 @@ function slideHori(picked_object){
 		picked_object.position.x = mid_slide - rayon;
 	
 	
-	VolBalance = sliderBalance.position.x + 1.5;
+	SpeedG = sliderSpeedG.position.x - posi_object_X[0] + 1;
+	SpeedD = sliderSpeedD.position.x - posi_object_X[1] + 1;
+	VolBalance = sliderBalance.position.x - posi_object_X[2] - 0.5;
+	tempo1(SpeedG);
+	tempo2(SpeedD);
+
 	crossfading(VolBalance);
 }
