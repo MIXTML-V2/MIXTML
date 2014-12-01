@@ -21,6 +21,8 @@
 			pick_object == sliderSpeedD || 
 			pick_object == sliderBalance)
 			init_slideHori(pick_object);
+		if (pick_object == tourneDisqueG || pick_object == tourneDisqueD)
+			play_pause(pick_object);
 	}
 	mouseDown = true;
 }

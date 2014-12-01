@@ -4,16 +4,35 @@
 		<link rel="stylesheet" type="text/css" href="css/design.css" media="all"/> 
 	</head>
 	<body>
-		<script src="js/three.min.js"></script>
 		
+		<script src="js/three.min.js"></script>
+		<script src="js/libs/stats.min.js"></script>		
 		<script src="js/renderers/Projector.js"></script>
 		<script src="js/renderers/CanvasRenderer.js"></script>
+
 		<script src="js/init_scene.js"></script>
 		<script src="js/mouse_manager.js"></script>
 		<script src="js/fps_manager.js"></script>
 		<script src="js/slider_manager.js"></script>
-		<script src="js/libs/stats.min.js"></script>
+
+		
+		<script src="js/jquery.min.js"></script>
+        <script src="js/buffer-loader.js"></script>
+        <script src="http://connect.soundcloud.com/sdk.js"></script>
+		<script src="js/bridge_graph_audio.js"></script>
 		<script> 
+			SC.initialize({
+                client_id: 'b3bee43f97dd7fc2c777679cb276ab9f'
+            });
+			function search(val){
+                SC.get("/tracks", {q: val}, function(tracks){
+                    var length = tracks.length;
+                    for (var i = 0; i < length; i++){
+                        if (tracks[i].stream_url !== undefined)
+                            $('#results').append('<p id="titleMusic'+ i +'" onclick="initurl(\''+tracks[i].stream_url+'\');">'+ tracks[i].title +' <img src="'+tracks[i].artwork_url+'" /> </p>');
+                    }
+                });
+            }
 			// variable initialisation de la scène
 			var scene, width, height, ratio, camera, renderer, stat;
 			// tableau qui va contenir tout les objects de la scène
@@ -40,7 +59,7 @@
 			// variable de la sourie
 			var mouseX, mouseY, mouseDown, mouseDownX, mouseDownY;
 			// fonction d'initalisation appeler depuis init_scene.js
-			init();
+			init_graph();
 			// fonction d'render
 			render();
 			// Boucle de rendu toutes les modifs doivent de faire ici
@@ -53,5 +72,9 @@
 				stats.update();
 			}	
 		</script>
+		<div id="search" style="width: 23.5%; position: absolute; right:0px; top: 5px;">
+            <span><input id="searchValue" type="" class="search rounded" placeholder="Recherche..."><input id="searchButton" type="button" onclick="search(#value.)" value="Recherche"></span>
+		</div>
+		<div id="results" style="width: 23.5%; position: absolute; right:0px; top: 5px"></div>
 	</body>
 </html>
