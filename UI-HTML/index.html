@@ -54,6 +54,7 @@
 			// Boucle de rendu toutes les modifs doivent de faire ici
 			function render() {
 				$("#block_recherche").css("height", height);
+				$("#searchValue").focus();
 				requestAnimationFrame( render );
 				fps_manager();
 				turn_on_left();

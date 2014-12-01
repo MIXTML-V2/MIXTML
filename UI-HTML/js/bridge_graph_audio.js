@@ -1,5 +1,6 @@
 ﻿var VolD = VolG = VolBalance = 0.5;
 var SpeedG = SpeedD = 1;
+var download1 = download2 = true;
 
 SC.initialize({
     client_id: 'b3bee43f97dd7fc2c777679cb276ab9f'
@@ -58,6 +59,7 @@ init(url);
 
 function initurl(val){
     if (act1 === 0){
+		download1 = true;
 		tourneDisqueG.material.color.setHex( 0xff0000 );
         stop(1);
         url[0] = String(val) + '?client_id=b3bee43f97dd7fc2c777679cb276ab9f';
@@ -65,6 +67,7 @@ function initurl(val){
         init(url);
     }    
     else if(act2 === 0){
+		download2 = true;
 		tourneDisqueD.material.color.setHex( 0xff0000 );
         stop(2);
         url[1] = String(val) + '?client_id=b3bee43f97dd7fc2c777679cb276ab9f';
@@ -88,6 +91,7 @@ function finishedLoading(bufferList) {
 		source1.connect(gainNode1);
 		gainNode1.connect(context.destination);
 		tourneDisqueG.material.color.setHex( 0xffffff );
+		download1 = false;
 		console.log('Finished Loading terminé 1');
 	}
 	else if(numplayer === 2){
@@ -97,6 +101,7 @@ function finishedLoading(bufferList) {
 		source2.connect(gainNode2);
 		gainNode2.connect(context.destination);
 		tourneDisqueD.material.color.setHex( 0xffffff );
+		download2 = false;
 		console.log('Finished Loading terminé 2');
 	}
 	else if(numplayer === 0){
@@ -111,6 +116,8 @@ function finishedLoading(bufferList) {
 		source2.connect(gainNode2);
 		gainNode2.connect(context.destination);
 		console.log('Finished Loading terminé 0');
+		download1 = false;
+		download2 = false;
 		tourneDisqueG.material.color.setHex( 0xffffff );
 		tourneDisqueD.material.color.setHex( 0xffffff );
 	}
@@ -143,7 +150,7 @@ function play_pause(picked_object){
 	else if (picked_object == tourneDisqueD)
 		numplayer = 2;
 		
-	if (numplayer === 1){
+	if (numplayer === 1 && !download1){
 		if (act1 === 0){
 			play(1);
 			$("#playPause").addClass("pause").removeClass("play");
@@ -153,7 +160,7 @@ function play_pause(picked_object){
 			$("#playPause").addClass("play").removeClass("pause");
 		}
 	}
-	else if (numplayer === 2){
+	else if (numplayer === 2 && !download2){
 		if (act2 === 0){
 			play(2);
 			$("#playPause2").addClass("pause").removeClass("play");
