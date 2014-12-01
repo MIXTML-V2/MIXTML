@@ -25,14 +25,6 @@ if (tracks[i].stream_url !== undefined)
     });
 }
 
-/*function init_bridge(){
-	
-}
-
-function bridge(){
-	
-}*/
-
 var context, buffer1 ,buffer2;
 var source1, source2;
 var startOffset1 = 0, startOffset2 = 0;
@@ -158,7 +150,7 @@ function play(num) {
 		source1.connect(gainNode1);
 		gainNode1.connect(context.destination);
 		source1.start(0, startOffset1 % buffer1.duration);
-		
+		play1 = true;
 		act1 = 1;
 	}
 	else if (numplayer === 2){
@@ -169,6 +161,7 @@ function play(num) {
 		source2.connect(gainNode2);
 		gainNode2.connect(context.destination);
 		source2.start(0, startOffset2 % buffer2.duration);
+		play2 = true;
 		act2 = 1;
 	}
 }
@@ -179,12 +172,14 @@ function pause(num) {
 		source1.stop();
 		vit1 = source1.playbackRate.value;
 		startOffset1 += context.currentTime - startTime1;
+		play1 = false;
 		act1 = 0;
 	}
 	else if (numplayer === 2){
 		source2.stop();
 		vit2 = source2.playbackRate.value;
 		startOffset2 += context.currentTime - startTime2;
+		play2 = false;
 		act2 = 0;
 	}
 }

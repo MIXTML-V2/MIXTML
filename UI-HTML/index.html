@@ -14,6 +14,7 @@
 		<script src="js/mouse_manager.js"></script>
 		<script src="js/fps_manager.js"></script>
 		<script src="js/slider_manager.js"></script>
+		<script src="js/platine_manager.js"></script>
 
 		
 		<script src="js/jquery.min.js"></script>
@@ -21,18 +22,6 @@
         <script src="http://connect.soundcloud.com/sdk.js"></script>
 		<script src="js/bridge_graph_audio.js"></script>
 		<script> 
-			SC.initialize({
-                client_id: 'b3bee43f97dd7fc2c777679cb276ab9f'
-            });
-			function search(val){
-                SC.get("/tracks", {q: val}, function(tracks){
-                    var length = tracks.length;
-                    for (var i = 0; i < length; i++){
-                        if (tracks[i].stream_url !== undefined)
-                            $('#results').append('<p id="titleMusic'+ i +'" onclick="initurl(\''+tracks[i].stream_url+'\');">'+ tracks[i].title +' <img src="'+tracks[i].artwork_url+'" /> </p>');
-                    }
-                });
-            }
 			// variable initialisation de la scène
 			var scene, width, height, ratio, camera, renderer, stat;
 			// tableau qui va contenir tout les objects de la scène
@@ -66,8 +55,8 @@
 			function render() {
 				requestAnimationFrame( render );
 				fps_manager();
-				tourneDisqueD.rotation.z += 0.1;
-				tourneDisqueG.rotation.z += 0.1;
+				turn_on_left();
+				turn_on_right();
 				renderer.render( scene, camera );
 				stats.update();
 			}	
